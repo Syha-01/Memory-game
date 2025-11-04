@@ -69,6 +69,7 @@ function shuffle(arr) {
 }
 
 // ------------- TODO #2: Deal cards to the DOM -------------
+// ------------- TODO #2: Deal cards to the DOM -------------
 function dealCards(deck) {
   const cardGrid = document.querySelector(".card-table");
 
@@ -82,39 +83,33 @@ function dealCards(deck) {
       const card = document.createElement("div");
       card.classList.add("card");
 
-        card.setAttribute('data-name', 'example-name');//have to update thiss
+      card.setAttribute('data-name', deck[i].name); // Correctly set the data-name
 
       //the back of the card
-       const back = document.createElement('div');
-       back.classList.add("back");
+      const back = document.createElement('div');
+      back.classList.add("back");
 
-       const image = document.createElement('img');
-       back.classList.add("back-image");
+      //the front of the card of course
+      const front = document.createElement('div');
+      front.classList.add("front");
 
-       //the front of the card of course
-const front = document.createElement('div');
- front.classList.add("front");
-
-      // Loop through the array of user objects
-deck.forEach(deck => {
-    // Set the text content of the list item to the user's name
-
- image.src = deck.image + '.svg';
- console.log (deck.image + '.svg')
+      const backImage = document.createElement('img');
+      // Set the image source to the image of the current card
+      backImage.src = deck[i].image + '.svg';
+      console.log(deck[i].image + '.svg');
 
 
-}
-);
-front.appendChild(image)
-     card.appendChild(back);
-     card.appendChild(front);
+      //front.appendChild(backImage) //just checking if images are being attached correctly.
+
+      back.appendChild(backImage)
+      card.appendChild(back);
+      card.appendChild(front);
       frag.appendChild(card);
     }
     cardGrid.appendChild(frag);
-  } else
-    {
-      console.log("no card grid found");
-    }
+  } else {
+    console.log("no card grid found");
+  }
 
   // Goal: create DOM nodes for each card and append to .card-table efficiently.
   // Use a DocumentFragment. Card structure:
