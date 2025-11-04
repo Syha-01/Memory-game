@@ -18,25 +18,26 @@ const counter = document.querySelector(".tries-remaining");
 counter.textContent = triesRemaining;
 
 // Restart (initial simple behavior)
-document.getElementById('restart').addEventListener('click', () => window.location.reload());
+document
+  .getElementById("restart")
+  .addEventListener("click", () => window.location.reload());
 
 // ------------- Fetch the deck -------------
 fetch("./data/card_info.json")
-  .then(res => res.json())
-  .then(data => {
-    winCounter = data.length;            // # of unique pairs to match
+  .then((res) => res.json())
+  .then((data) => {
+    winCounter = data.length; // # of unique pairs to match
     cards = [...data, ...data];
 
     console.log(cards);
     // duplicate to make pairs
-    const shuffled = shuffle(cards);     // TODO: implement shuffle()
-    dealCards(shuffled);                 // TODO: build and attach card elements
+    const shuffled = shuffle(cards); // TODO: implement shuffle()
+    dealCards(shuffled); // TODO: build and attach card elements
   })
-  .catch(err => console.error("Fetch error:", err));
+  .catch((err) => console.error("Fetch error:", err));
 
 // ------------- TODO #1: Implement Fisher-Yates shuffle -------------
 function shuffle(arr) {
-
   // Goal: return a new shuffled copy of arr using Fisher–Yates (in-place) algorithm.
   // Steps:
   // 1) Copy the incoming array (to avoid mutating original).
@@ -47,22 +48,20 @@ function shuffle(arr) {
   console.log(arr);
   const shuffledArray = [...arr];
 
-    // Start from the last element and swap
-    // one by one. We don't need to run for
-    // the first element that's why i > 0
-    for (let i = shuffledArray.length - 1; i > 0; i--)
-    {
+  // Start from the last element and swap
+  // one by one. We don't need to run for
+  // the first element that's why i > 0
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    // Pick a random index from 0 to i inclusive
+    let j = Math.floor(Math.random() * (i + 1));
 
-        // Pick a random index from 0 to i inclusive
-        let j = Math.floor(Math.random() * (i + 1));
+    // Swap arr[i] with the element
+    // at random index
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+  }
 
-        // Swap arr[i] with the element
-        // at random index
-        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-    }
-
-//checking to see if array was shuffled
-console.log(shuffledArray);
+  //checking to see if array was shuffled
+  console.log(shuffledArray);
   // TODO: loop i from copy.length - 1 down to 1
   // TODO: generate j = Math.floor(Math.random() * (i + 1))
   // TODO: swap copy[i] and copy[j]
@@ -71,14 +70,51 @@ console.log(shuffledArray);
 
 // ------------- TODO #2: Deal cards to the DOM -------------
 function dealCards(deck) {
- const cardGrid = document.querySelector(".card-table");
+  const cardGrid = document.querySelector(".card-table");
 
- if(cardGrid) {
-  console.log ('card grid found')
- }
- else (
-  console.log ('no card grid found')
- )
+  if (cardGrid) {
+    console.log("card grid found");
+
+    const frag = document.createDocumentFragment();
+
+    //creating the main card element
+    for (let i = 0; i < deck.length; i++) {
+      const card = document.createElement("div");
+      card.classList.add("card");
+
+        card.setAttribute('data-name', 'example-name');//have to update thiss
+
+      //the back of the card
+       const back = document.createElement('div');
+       back.classList.add("back");
+
+       const image = document.createElement('img');
+       back.classList.add("back-image");
+
+       //the front of the card of course
+const front = document.createElement('div');
+ front.classList.add("front");
+
+      // Loop through the array of user objects
+deck.forEach(deck => {
+    // Set the text content of the list item to the user's name
+
+ image.src = deck.image + '.svg';
+ console.log (deck.image + '.svg')
+
+
+}
+);
+front.appendChild(image)
+     card.appendChild(back);
+     card.appendChild(front);
+      frag.appendChild(card);
+    }
+    cardGrid.appendChild(frag);
+  } else
+    {
+      console.log("no card grid found");
+    }
 
   // Goal: create DOM nodes for each card and append to .card-table efficiently.
   // Use a DocumentFragment. Card structure:
@@ -86,13 +122,6 @@ function dealCards(deck) {
   //   <div class="back"><img class="back-image" src="./images/<name>.svg" alt="<name>"></div>
   //   <div class="front"></div>
   // </div>
-  const frag = document.createDocumentFragment();
-
-   for (let i = 2; i < 6; i++) {
-    const newLi = document.createElement('li');
-    newLi.textContent = `this is a list item`;
-    frag.appendChild(newLi);
-  }
 
   // TODO: for...of deck
   //   - create .card
@@ -103,9 +132,6 @@ function dealCards(deck) {
   //   - append .card to fragment
 
   // TODO: append fragment to cardTable
-
-  cardGrid.appendChild(frag)
-
 }
 
 // ------------- TODO #3: Flip logic & guarding -------------
@@ -116,7 +142,6 @@ function flipCard() {
   // - Prevent double-clicking the same card (if this === firstCard).
   // - If firstCard is empty, set it and return.
   // - Otherwise, set secondCard, lock (noFlipping = true), and call checkForMatch().
-
   // Your code here ↓
 }
 
@@ -134,7 +159,6 @@ function unflipCards() {
   // - if triesRemaining === 0 -> show loss overlay (showImageOverlay()) and return
   // - otherwise remove "flipped" from both cards
   // - call resetFlags()
-
   // Your code here ↓
 }
 
@@ -144,7 +168,6 @@ function matchCards() {
   // - Remove click listeners from both cards (they should remain flipped).
   // - Set a green background on matched pairs (setCardBackground(card, "greenyellow")).
   // - Reset flags.
-
   // Your code here ↓
 }
 
@@ -173,8 +196,8 @@ function createStar() {
   star.classList.add("star");
   const randomX = Math.random() * window.innerWidth;
   star.style.left = `${randomX}px`;
-  const duration = Math.random()*2 + 3;
+  const duration = Math.random() * 2 + 3;
   star.style.animationDuration = `${duration}s`;
   document.querySelector(".star-wrapper").appendChild(star);
-  star.addEventListener('animationend', () => star.remove());
+  star.addEventListener("animationend", () => star.remove());
 }
