@@ -61,6 +61,7 @@ function shuffle(arr) {
         [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
     }
 
+//checking to see if array was shuffled
 console.log(shuffledArray);
   // TODO: loop i from copy.length - 1 down to 1
   // TODO: generate j = Math.floor(Math.random() * (i + 1))
@@ -68,10 +69,16 @@ console.log(shuffledArray);
   return shuffledArray; // replace with real shuffled copy
 }
 
-shuffle()
 // ------------- TODO #2: Deal cards to the DOM -------------
 function dealCards(deck) {
+ const cardGrid = document.querySelector(".card-table");
 
+ if(cardGrid) {
+  console.log ('card grid found')
+ }
+ else (
+  console.log ('no card grid found')
+ )
 
   // Goal: create DOM nodes for each card and append to .card-table efficiently.
   // Use a DocumentFragment. Card structure:
@@ -80,6 +87,12 @@ function dealCards(deck) {
   //   <div class="front"></div>
   // </div>
   const frag = document.createDocumentFragment();
+
+   for (let i = 2; i < 6; i++) {
+    const newLi = document.createElement('li');
+    newLi.textContent = `this is a list item`;
+    frag.appendChild(newLi);
+  }
 
   // TODO: for...of deck
   //   - create .card
@@ -90,6 +103,9 @@ function dealCards(deck) {
   //   - append .card to fragment
 
   // TODO: append fragment to cardTable
+
+  cardGrid.appendChild(frag)
+
 }
 
 // ------------- TODO #3: Flip logic & guarding -------------
