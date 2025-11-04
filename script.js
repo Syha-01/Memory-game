@@ -82,6 +82,7 @@ function dealCards(deck) {
     for (let i = 0; i < deck.length; i++) {
       const card = document.createElement("div");
       card.classList.add("card");
+      card.addEventListener('click', flipCard);
 
       card.setAttribute('data-name', deck[i].name); // Correctly set the data-name
 
@@ -138,6 +139,19 @@ function flipCard() {
   // - If firstCard is empty, set it and return.
   // - Otherwise, set secondCard, lock (noFlipping = true), and call checkForMatch().
   // Your code here ↓
+// 1. Select the parent container element
+const cardTable = document.querySelector('.card-table');
+
+// 2. Add a single event listener to the parent
+cardTable.addEventListener('click', (event) => {
+    // 3. Check if the element that was actually clicked matches the '.card' class
+    if (event.target.matches('.card')) {
+
+        // Toggle a class on the specific card that was clicked
+        event.target.classList.toggle('flipped');
+    }
+});
+
 }
 
 // ------------- TODO #4: Decide match vs unflip -------------
