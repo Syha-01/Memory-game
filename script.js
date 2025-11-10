@@ -146,6 +146,9 @@ function flipCard() {
   secondCard = this;
   console.log("Second card:", secondCard);
 
+    noFlipping = false;
+ // checkForMatch(); need to implement this function as yet but it would be called here
+
 }
 
 // ------------- TODO #4: Decide match vs unflip -------------
