@@ -69,9 +69,9 @@ function shuffle(arr) {
 }
 
 // ------------- TODO #2: Deal cards to the DOM -------------
-// ------------- TODO #2: Deal cards to the DOM -------------
 function dealCards(deck) {
   const cardGrid = document.querySelector(".card-table");
+
 
   if (cardGrid) {
     console.log("card grid found");
@@ -82,7 +82,6 @@ function dealCards(deck) {
     for (let i = 0; i < deck.length; i++) {
       const card = document.createElement("div");
       card.classList.add("card");
-      card.addEventListener('click', flipCard);
 
       card.setAttribute('data-name', deck[i].name); // Correctly set the data-name
 
@@ -105,6 +104,7 @@ function dealCards(deck) {
       back.appendChild(backImage)
       card.appendChild(back);
       card.appendChild(front);
+      card.addEventListener("click", flipCard);
       frag.appendChild(card);
     }
     cardGrid.appendChild(frag);
@@ -132,25 +132,19 @@ function dealCards(deck) {
 
 // ------------- TODO #3: Flip logic & guarding -------------
 function flipCard() {
-  // Requirements:
-  // - If noFlipping is true, ignore clicks.
-  // - Add class "flipped" to show the back.
-  // - Prevent double-clicking the same card (if this === firstCard).
-  // - If firstCard is empty, set it and return.
-  // - Otherwise, set secondCard, lock (noFlipping = true), and call checkForMatch().
-  // Your code here ↓
-// 1. Select the parent container element
-const cardTable = document.querySelector('.card-table');
+  if (noFlipping) return;
+  console.log("Flipping card:", this);
 
-// 2. Add a single event listener to the parent
-cardTable.addEventListener('click', (event) => {
-    // 3. Check if the element that was actually clicked matches the '.card' class
-    if (event.target.matches('.card')) {
+  this.classList.add("flipped");
 
-        // Toggle a class on the specific card that was clicked
-        event.target.classList.toggle('flipped');
-    }
-});
+  if (!firstCard) {
+    firstCard = this;
+    console.log("First card:", firstCard);
+    return;
+  }
+
+  secondCard = this;
+  console.log("Second card:", secondCard);
 
 }
 
@@ -193,7 +187,7 @@ function resetFlags() {
 }
 
 // ------------- TODO #7: Loss overlay -------------
-function showImageOverlay() {
+function showImageOverlay() {const cardTable = document.querySelector('.card-table');
   // Create <div class="image-overlay"><img src="./images/loser.svg" alt="You lost"></div>
   // Append to body, then next frame set opacity to 1.
   // Your code here ↓
