@@ -38,13 +38,7 @@ fetch("./data/card_info.json")
 
 // ------------- TODO #1: Implement Fisher-Yates shuffle -------------
 function shuffle(arr) {
-  // Goal: return a new shuffled copy of arr using Fisher–Yates (in-place) algorithm.
-  // Steps:
-  // 1) Copy the incoming array (to avoid mutating original).
-  // 2) Loop from end -> start. For each index i, pick random j in [0, i].
-  // 3) Swap elements at i and j (use destructuring).
-  // 4) Return the shuffled copy.
-  // Your code here ↓
+
   console.log(arr);
   const shuffledArray = [...arr];
 
@@ -61,11 +55,9 @@ function shuffle(arr) {
   }
 
   //checking to see if array was shuffled
-  console.log(shuffledArray);
-  // TODO: loop i from copy.length - 1 down to 1
-  // TODO: generate j = Math.floor(Math.random() * (i + 1))
-  // TODO: swap copy[i] and copy[j]
-  return shuffledArray; // replace with real shuffled copy
+  //console.log(shuffledArray);
+
+  return shuffledArray;
 }
 
 // ------------- TODO #2: Deal cards to the DOM -------------
@@ -111,23 +103,6 @@ function dealCards(deck) {
   } else {
     console.log("no card grid found");
   }
-
-  // Goal: create DOM nodes for each card and append to .card-table efficiently.
-  // Use a DocumentFragment. Card structure:
-  // <div class="card" data-name="...">
-  //   <div class="back"><img class="back-image" src="./images/<name>.svg" alt="<name>"></div>
-  //   <div class="front"></div>
-  // </div>
-
-  // TODO: for...of deck
-  //   - create .card
-  //   - set data-name
-  //   - create .back with <img>, and .front
-  //   - append back & front into .card
-  //   - add click listener -> flipCard
-  //   - append .card to fragment
-
-  // TODO: append fragment to cardTable
 }
 
 // ------------- TODO #3: Flip logic & guarding -------------
