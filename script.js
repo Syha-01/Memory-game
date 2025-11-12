@@ -121,35 +121,54 @@ function flipCard() {
   secondCard = this;
   console.log("Second card:", secondCard);
 
-    noFlipping = false;
- // checkForMatch(); need to implement this function as yet but it would be called here
-
+    noFlipping = true;
+    checkForMatch();
 }
 
 // ------------- TODO #4: Decide match vs unflip -------------
 function checkForMatch() {
-  // Compute isMatch by comparing dataset.name on firstCard and secondCard.
-  // If match -> call matchCards(); else -> call unflipCards().
-  // Your code here ↓
+    const isMatch = firstCard.dataset.name === secondCard.dataset.name;
+    console.log(`Match check: ${isMatch}`);
+    if (isMatch) {
+        matchCards();
+    } else {
+        unflipCards();
+    }
 }
 
 // ------------- TODO #5: Handle unflip + tries + lose -------------
 function unflipCards() {
-  // After ~900ms:
-  // - decrement triesRemaining; update counter text
-  // - if triesRemaining === 0 -> show loss overlay (showImageOverlay()) and return
-  // - otherwise remove "flipped" from both cards
-  // - call resetFlags()
-  // Your code here ↓
+    console.log("No match, un-flipping cards.");
+    setTimeout(() => {
+        triesRemaining--;
+        counter.textContent = triesRemaining;
+        if (triesRemaining === 0) {
+            showImageOverlay();
+            return;
+        }
+        firstCard.classList.remove("flipped");
+        secondCard.classList.remove("flipped");
+        resetFlags();
+    }, 900);
 }
 
 // ------------- TODO #6: Handle match + win -------------
 function matchCards() {
-  // - Decrement winCounter. If 0 -> trigger win (alert + falling stars for 5s).
-  // - Remove click listeners from both cards (they should remain flipped).
-  // - Set a green background on matched pairs (setCardBackground(card, "greenyellow")).
-  // - Reset flags.
-  // Your code here ↓
+    console.log("Match found!");
+    winCounter--;
+    console.log(`Pairs left to find: ${winCounter}`);
+    firstCard.removeEventListener("click", flipCard);
+    secondCard.removeEventListener("click", flipCard);
+    setCardBackground(firstCard, "greenyellow");
+    setCardBackground(secondCard, "greenyellow");
+    resetFlags();
+
+    if (winCounter === 0) {
+        console.log("You win!");
+        alert("You win!");
+        const starInterval = setInterval(createStar, 50);
+        setTimeout(() => clearInterval(starInterval), 5000);
+    }
 }
 
 // Utility: set matched background color on the "back" face
@@ -165,10 +184,18 @@ function resetFlags() {
 }
 
 // ------------- TODO #7: Loss overlay -------------
-function showImageOverlay() {const cardTable = document.querySelector('.card-table');
-  // Create <div class="image-overlay"><img src="./images/loser.svg" alt="You lost"></div>
-  // Append to body, then next frame set opacity to 1.
-  // Your code here ↓
+function showImageOverlay() {
+    console.log("You lose!");
+    const overlay = document.createElement("div");
+    overlay.className = "image-overlay";
+    const img = document.createElement("img");
+    img.src = "./images/loser.svg";
+    img.alt = "You lost";
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+    requestAnimationFrame(() => {
+        overlay.style.opacity = 1;
+    });
 }
 
 // Celebration stars (provided)
